@@ -74,6 +74,10 @@ window.__CHECK2 = function(url, marginMods){
     pctOpaco:(100*opacos/total).toFixed(1),
     modulosFuera:fuera, erroresFuera:malFuera.length, primeros:malFuera.slice(0,6),
     bloques:det, peorBloque:peor, capacidad:t, margenRS:(t-peor),
-    todoOK:(malFuera.length===0 && peor<=t && esquina===0)
+    // El fondo puede ser opaco o transparente segun la variante; no es un
+    // criterio de validez, solo se informa. Lo que decide es que los modulos
+    // fuera del logo se lean bien y que ningun bloque exceda su capacidad.
+    fondo:(esquina===0 ? 'transparente' : 'opaco'),
+    todoOK:(malFuera.length===0 && peor<=t)
   };
 };
