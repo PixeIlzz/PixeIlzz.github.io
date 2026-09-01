@@ -223,6 +223,6 @@ function rowsOf(q){var rows=[],dark=0,rc=[];
     rows.push(r); rc.push(d); dark+=d;}
   return {rows:rows,dark:dark,perRow:rc.join(',')};}
 
-window.QR={makeQR:makeQR,verify:verify,rowsOf:rowsOf,centerCost:centerCost};
+window.QR={makeQR:makeQR,verify:verify,rowsOf:rowsOf,centerCost:centerCost,_mask:maskFn};
 </script>
 </body></html>
