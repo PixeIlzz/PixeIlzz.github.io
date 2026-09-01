@@ -27,16 +27,23 @@ function New-RR($x, $y, $w, $h, $r) {
   return $p
 }
 
-$bmp = New-Object System.Drawing.Bitmap($tot, $tot)
+$bmp = New-Object System.Drawing.Bitmap($tot, $tot, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
 $g = [System.Drawing.Graphics]::FromImage($bmp)
 $g.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
 $g.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
 
 $navy  = [System.Drawing.Color]::FromArgb(23, 37, 60)
 $amber = [System.Drawing.Color]::FromArgb(255, 193, 7)
-$g.Clear($amber)
+
+# Fuera del borde no se pinta nada: queda alfa 0. El ambar solo rellena
+# el interior del rectangulo redondeado que forma el borde.
+$radio = 1.6 * $s
+$g.Clear([System.Drawing.Color]::Transparent)
 $fg = New-Object System.Drawing.SolidBrush($navy)
 $bg = New-Object System.Drawing.SolidBrush($amber)
+$outer = New-RR 0 0 $tot $tot $radio
+$g.FillPath($bg, $outer)
+$g.SetClip($outer)
 
 $finders = @(@(0,0), @(0,26), @(26,0))
 $align = @(24,24)
@@ -104,10 +111,12 @@ $inset = $penW / 2
 $pen = New-Object System.Drawing.Pen($navy, $penW)
 $pen.Alignment = [System.Drawing.Drawing2D.PenAlignment]::Center
 $side = $tot - $inset - $inset
-$bp = New-RR $inset $inset $side $side (1.6 * $s)
+$bp = New-RR $inset $inset $side $side ($radio - $inset)
 $g.DrawPath($pen, $bp)
 $bp.Dispose(); $pen.Dispose()
 
+$g.ResetClip()
+$outer.Dispose()
 $g.Dispose(); $fg.Dispose(); $bg.Dispose()
 $bmp.Save("$dir\qr.png", [System.Drawing.Imaging.ImageFormat]::Png)
 $bmp.Dispose()
