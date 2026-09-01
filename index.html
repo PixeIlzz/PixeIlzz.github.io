@@ -62,6 +62,11 @@ nav a{
   min-height:44px;display:inline-flex;align-items:center;
 }
 nav a:hover{border-color:var(--acc);color:var(--acc)}
+nav a#mail-link.copied{border-color:var(--acc);color:var(--acc);background:rgba(127,168,217,.12)}
+.sr-live{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
 
 /* ---------- secciones ---------- */
 section{padding-top:34px}
@@ -189,10 +194,12 @@ footer a{display:inline-block;padding:9px 0}
   <p class="stack" lang="es">Unreal Engine 5.8 · C++ / Blueprints · IA, replicación y física</p>
   <p class="stack" lang="en">Unreal Engine 5.8 · C++ / Blueprints · AI, replication and physics</p>
   <nav>
-    <a href="https://youtu.be/MECEkKVvrVQ" rel="noopener">Reel</a>
+    <a href="https://youtu.be/MECEkKVvrVQ" target="_blank" rel="noopener">Reel</a>
     <a id="cv-link" href="cv-fran-leon-es.pdf" target="_blank" rel="noopener">CV</a>
-    <a href="mailto:pixellzdev04@gmail.com">Email</a>
+    <a id="mail-link" href="mailto:pixellzdev04@gmail.com"
+       title="pixellzdev04@gmail.com"><span id="mail-text">Email</span></a>
   </nav>
+  <p class="sr-live" id="mail-live" role="status" aria-live="polite"></p>
 </header>
 
 <!-- ============ NIGHTMARELOOP ============ -->
@@ -688,7 +695,7 @@ footer a{display:inline-block;padding:9px 0}
       <p class="desc" lang="en">Time-attack delivery arcade. Simple dog AI, random delivery
       destinations taken from an array of map points, time bonus, and respawn with a particle
       system after being run over.</p>
-      <div class="links"><a href="https://pixellz.itch.io" rel="noopener">itch.io</a></div>
+      <div class="links"><a href="https://pixellz.itch.io" target="_blank" rel="noopener">itch.io</a></div>
     </div>
 
     <div class="card proto">
@@ -710,7 +717,7 @@ footer a{display:inline-block;padding:9px 0}
 
 <footer>
   <p><a href="mailto:pixellzdev04@gmail.com">pixellzdev04@gmail.com</a></p>
-  <p><a href="https://youtu.be/MECEkKVvrVQ" rel="noopener">Reel</a></p>
+  <p><a href="https://youtu.be/MECEkKVvrVQ" target="_blank" rel="noopener">Reel</a></p>
 </footer>
 
 </div>
@@ -786,6 +793,74 @@ footer a{display:inline-block;padding:9px 0}
   }
 
   set(root.getAttribute('data-lang') === 'en' ? 'en' : 'es', false);
+})();
+
+/* el boton de email copia la direccion al portapapeles */
+(function(){
+  var MAIL = 'pixellzdev04@gmail.com';
+  var TXT  = { es:{ok:'¡Copiado!', err:'Copia manual'},
+               en:{ok:'Copied!',   err:'Copy manually'} };
+  var link = document.getElementById('mail-link');
+  var label = document.getElementById('mail-text');
+  var live = document.getElementById('mail-live');
+  if (!link || !label) return;
+  var timer = null;
+
+  function flash(msg){
+    if (timer) { clearTimeout(timer); }
+    label.textContent = msg;
+    link.classList.add('copied');
+    if (live) live.textContent = msg + ' ' + MAIL;
+    timer = setTimeout(function(){
+      label.textContent = 'Email';
+      link.classList.remove('copied');
+      if (live) live.textContent = '';
+      timer = null;
+    }, 1800);
+  }
+
+  function msg(kind){
+    var l = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'es';
+    return TXT[l][kind];
+  }
+
+  /* Ultimo recurso para navegadores sin Clipboard API o sin contexto seguro. */
+  function legacyCopy(){
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = MAIL;
+      ta.setAttribute('readonly','');
+      ta.style.position = 'fixed';
+      ta.style.top = '-1000px';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, MAIL.length);
+      var ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch(e) { return false; }
+  }
+
+  link.addEventListener('click', function(ev){
+    /* Con modificador o boton central, respeta lo que pide el usuario. */
+    if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    ev.preventDefault();
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(MAIL).then(function(){
+        flash(msg('ok'));
+      })['catch'](function(){
+        if (legacyCopy()) { flash(msg('ok')); }
+        else { flash(msg('err')); window.location.href = link.getAttribute('href'); }
+      });
+    } else if (legacyCopy()) {
+      flash(msg('ok'));
+    } else {
+      /* Sin forma de copiar: comportamiento de siempre, abrir el correo. */
+      window.location.href = link.getAttribute('href');
+    }
+  });
 })();
 </script>
 </body>
