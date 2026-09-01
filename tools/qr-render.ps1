@@ -5,7 +5,11 @@ $dir = "C:\Users\Javier\Documents\Portfolio-Web\Pixellz.github.io"
 $rows = @(Get-Content $sp)
 $n = $rows.Count
 $s = 30
-$m = 4.5
+# Grosor del borde y zona muda, en modulos. El borde va a ras del canto de
+# la imagen; la zona muda es el ambar que queda entre el borde y el codigo.
+$bordeMods = 0.6
+$mudaMods = 2.0
+$m = $bordeMods + $mudaMods
 $tot = [int]((($n + $m + $m)) * $s)
 
 function New-RR($x, $y, $w, $h, $r) {
@@ -95,12 +99,12 @@ $g.DrawImage($logo, ($cx - $lw / 2), ($cx - $lw / 2), $lw, $lw)
 $g.ResetClip()
 $lp.Dispose(); $logo.Dispose()
 
-$penW = 0.25 * $s
-$inset = 0.30 * $s
+$penW = $bordeMods * $s
+$inset = $penW / 2
 $pen = New-Object System.Drawing.Pen($navy, $penW)
 $pen.Alignment = [System.Drawing.Drawing2D.PenAlignment]::Center
 $side = $tot - $inset - $inset
-$bp = New-RR $inset $inset $side $side (2.0 * $s)
+$bp = New-RR $inset $inset $side $side (1.6 * $s)
 $g.DrawPath($pen, $bp)
 $bp.Dispose(); $pen.Dispose()
 
