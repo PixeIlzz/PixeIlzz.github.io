@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fran León — Gameplay Programmer</title>
+<meta name="description" content="Fran León. Gameplay programmer. Unreal Engine 5.8, C++ y Blueprints. IA, replicación y física.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0c0e11">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#0c0e11;
+  --panel:#12151a;
+  --panel2:#171b21;
+  --line:#232830;
+  --tx:#d6dae0;
+  --dim:#8a939f;
+  --dim2:#6b7480;
+  --acc:#7fa8d9;
+  --warn:#c9a227;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"DejaVu Sans Mono",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--tx);
+  font-family:var(--sans);font-size:16px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  overflow-wrap:break-word;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px 72px}
+a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(127,168,217,.35)}
+a:hover{border-bottom-color:var(--acc)}
+h1,h2,h3,h4{line-height:1.25;margin:0;font-weight:600}
+code{font-family:var(--mono);font-size:.88em;color:#b9c4d0}
+
+/* ---------- cabecera ---------- */
+header{padding:38px 0 26px;border-bottom:1px solid var(--line)}
+h1{font-size:1.75rem;letter-spacing:-.01em}
+.role{margin:6px 0 0;font-size:1.02rem;color:var(--tx)}
+.stack{margin:8px 0 0;font-family:var(--mono);font-size:.82rem;color:var(--dim);line-height:1.55}
+nav{margin:20px 0 0;display:flex;flex-wrap:wrap;gap:9px}
+nav a{
+  border:1px solid var(--line);border-radius:5px;background:var(--panel);
+  padding:9px 14px;font-family:var(--mono);font-size:.82rem;color:var(--tx);
+  min-height:44px;display:inline-flex;align-items:center;
+}
+nav a:hover{border-color:var(--acc);color:var(--acc)}
+
+/* ---------- secciones ---------- */
+section{padding-top:34px}
+.sec-label{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--dim2);margin:0 0 10px
+}
+h2{font-size:1.35rem;letter-spacing:-.01em}
+.tagline{margin:8px 0 0;color:var(--dim);font-size:.94rem}
+.meta{margin:6px 0 0;font-family:var(--mono);font-size:.78rem;color:var(--dim2)}
+
+.note{
+  margin:14px 0 0;padding:11px 13px;border:1px solid var(--line);
+  border-left:2px solid var(--warn);border-radius:0 4px 4px 0;background:var(--panel);
+  font-size:.87rem;color:var(--dim);
+}
+.note b{color:var(--tx);font-weight:600}
+
+/* ---------- bloque de sistema ---------- */
+.sys{
+  margin:20px 0 0;padding:16px 15px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;
+}
+.sys h3{font-size:1.02rem}
+.sys h3 .n{font-family:var(--mono);color:var(--dim2);font-weight:400;margin-right:8px}
+.tech{margin:5px 0 0;font-family:var(--mono);font-size:.76rem;color:var(--acc);opacity:.85}
+.qa{margin:14px 0 0}
+.qa > div + div{margin-top:13px}
+.k{
+  font-family:var(--mono);font-size:.71rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--dim2);margin:0 0 3px;
+}
+.qa p{margin:0;font-size:.94rem}
+ul.tight{margin:9px 0 0;padding-left:17px}
+ul.tight li{margin:0 0 7px;font-size:.92rem;color:var(--tx)}
+ul.tight li:last-child{margin-bottom:0}
+.aside{
+  margin:13px 0 0;padding-top:12px;border-top:1px solid var(--line);
+  font-size:.89rem;color:var(--dim)
+}
+.aside p:not(.k){margin:0;font-size:.92rem}
+.aside .k{margin-bottom:4px}
+
+/* ---------- código ---------- */
+figure{margin:20px 0 0}
+figcaption{
+  font-family:var(--mono);font-size:.73rem;color:var(--dim2);
+  padding:8px 12px;background:var(--panel2);border:1px solid var(--line);
+  border-bottom:0;border-radius:6px 6px 0 0;
+}
+pre{
+  margin:0;padding:13px 14px;background:#0f1216;border:1px solid var(--line);
+  border-radius:0 0 6px 6px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+}
+pre code{
+  font-family:var(--mono);font-size:12px;line-height:1.62;
+  color:#c3cad3;white-space:pre;display:block;
+}
+.t-cm{color:#5f6b7a;font-style:italic}
+.t-kw{color:#82aaff}
+.t-ty{color:#7fdbca}
+.t-fn{color:#e0c485}
+.t-nu{color:#e8907a}
+.t-st{color:#a5c97f}
+
+/* ---------- tarjetas publicadas ---------- */
+.cards{margin:18px 0 0;display:grid;gap:11px}
+.card{
+  padding:14px 15px;background:var(--panel);border:1px solid var(--line);border-radius:6px;
+}
+.card h3{font-size:.98rem}
+.card .meta{margin:4px 0 0}
+.card p.desc{margin:8px 0 0;font-size:.9rem;color:var(--dim)}
+.card .links{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.card .links a{
+  font-family:var(--mono);font-size:.76rem;border:1px solid var(--line);border-radius:4px;
+  padding:6px 10px;min-height:36px;display:inline-flex;align-items:center;
+}
+.card.proto{background:transparent}
+
+/* ---------- pie ---------- */
+footer{
+  margin-top:46px;padding-top:22px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.82rem;color:var(--dim);
+}
+footer p{margin:0 0 6px}
+footer a{display:inline-block;padding:9px 0}
+
+@media (min-width:700px){
+  body{font-size:17px}
+  h1{font-size:2.1rem}
+  h2{font-size:1.5rem}
+  .wrap{padding:0 28px 88px}
+  .sys{padding:20px 22px}
+  pre code{font-size:13px}
+  .cards{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Fran León</h1>
+  <p class="role">Gameplay Programmer</p>
+  <p class="stack">Unreal Engine 5.8 · C++ / Blueprints · IA, replicación y física</p>
+  <nav>
+    <a href="https://youtu.be/MECEkKVvrVQ" rel="noopener">Reel</a>
+    <a href="mailto:pixellzdev04@gmail.com">Email</a>
+  </nav>
+</header>
+
+<!-- ============ NIGHTMARELOOP ============ -->
+<section>
+  <p class="sec-label">Proyecto 01</p>
+  <h2>NightmareLoop</h2>
+  <p class="tagline">Coop de terror en Unreal Engine 5.8.</p>
+  <p class="meta">Vertical slice de sistemas · demo técnica, no un juego terminado</p>
+
+  <div class="note">
+    <b>Alcance.</b> Es una vertical slice: los sistemas funcionan, el juego no está
+    terminado. El arte y las mallas son packs de marketplace. Hay un segundo contribuidor
+    con perfil de nivel y arte; ninguno de los sistemas de IA, inventario o red es suyo.
+  </div>
+
+  <article class="sys">
+    <h3><span class="n">1.1</span>Percepción graduada por jugador</h3>
+    <p class="tech">AIPerception · C++ · Behavior Tree</p>
+    <div class="qa">
+      <div>
+        <p class="k">Problema</p>
+        <p>AIPerception es binario: te ve o no te ve, y cambia de estado en un frame.
+        En terror eso produce dos fallos que se sienten mal: detección instantánea al
+        cruzar el borde del cono, y pérdida igual de rápida tras una esquina. En coop de 4
+        hay un tercero: con un solo «objetivo actual», el enemigo oscila entre dos jugadores
+        equidistantes y no persigue a ninguno.</p>
+      </div>
+      <div>
+        <p class="k">Qué decidí</p>
+        <p>Un medidor continuo 0→1 por jugador, almacenado en el AIController y no en el
+        pawn: el conocimiento del enemigo no es propiedad de su cuerpo. Sube con
+        <code>Gain × DistFactor × PostureFactor × Δt</code>. DistFactor interpola de 1.0 a
+        0.25 entre 500 y 1500 unidades; PostureFactor va de 0.35 agachado a 1.5 corriendo.
+        El umbral 0.5 escribe la posición a investigar; 1.0 escribe el objetivo.</p>
+      </div>
+      <div>
+        <p class="k">Por qué gana a lo obvio</p>
+        <p>La solución ingenua es un temporizador — «si te veo N segundos, te detecto» — que
+        no distingue estar a 15 metros agachado de estar a 3 metros corriendo. Aquí sale una
+        curva que el jugador puede leer y contra la que puede jugar.</p>
+      </div>
+    </div>
+    <div class="aside">
+      <p class="k">Dos detalles que solo aparecen jugando</p>
+      <ul class="tight">
+        <li>Hold de 0.75 s antes de decaer, para que romper la línea de visión un frame no
+        devuelva el medidor a cero.</li>
+        <li>Sticky bonus de 0.15 al objetivo ya elegido, usado solo para comparar candidatos
+        y no para los umbrales. Mata la oscilación entre jugadores sin hacer al enemigo más
+        agresivo.</li>
+      </ul>
+    </div>
+    <div class="aside">
+      <p class="k">Integración</p>
+      <p>El sistema entró sin refactorizar nada aguas abajo: su única salida son claves de
+      blackboard que ya existían.</p>
+    </div>
+    <div class="aside">
+      <p class="k">Por qué hay C++ aquí</p>
+      <p><code>SensesConfig</code> es <code>protected</code> + <code>EditDefaultsOnly</code>,
+      y <code>GetSenseConfig</code> / <code>ConfigureSense</code> no son <code>UFUNCTION</code>.
+      Sin un wrapper en C++ (UBlueprintFunctionLibrary), el DataAsset no puede gobernar radios
+      ni ángulo de visión en runtime.</p>
+    </div>
+  </article>
+
+  <article class="sys">
+    <h3><span class="n">1.2</span>Escondites con memoria</h3>
+    <p class="tech">Behavior Tree · blackboard · navegación</p>
+    <div class="qa">
+      <div>
+        <p class="k">Problema</p>
+        <p>En un juego de esconderse, la taquilla es o inútil o invencible, y las dos son
+        malas. Hace falta que el enemigo abra la taquilla correcta por la razón correcta: la
+        que te vio usar.</p>
+      </div>
+      <div>
+        <p class="k">Qué decidí</p>
+        <p>El escondite no le dice a la IA «estoy ocupado», le dice «este jugador acaba de
+        meterse aquí», y es la IA quien decide si eso le consta. El gate es
+        <code>(tiempo desde que lo vio ≤ 0.5 s) &amp;&amp; (sospecha ≥ umbral)</code>,
+        reutilizando el sello de tiempo del sistema de percepción para distinguir «te vi
+        entrar» de «te metiste cuando no miraba». Un jugador que no está en el mapa de
+        percepción devuelve 0.0 y el gate se cierra solo: el comportamiento por defecto sale
+        gratis.</p>
+      </div>
+      <div>
+        <p class="k">Por qué gana a lo obvio</p>
+        <p>«Si el jugador está escondido, ve a esa taquilla» es un aimbot. «Revisa taquillas
+        al azar» es ruido. Aquí hay tres piezas combinadas:</p>
+        <ul class="tight">
+          <li>Elección por coste de path, no distancia recta: una taquilla a 5 m al otro lado
+          de una pared no es la más cercana.</li>
+          <li>Lista negra de taquillas ya revisadas, que se limpia entera en cuanto vuelve a
+          verte, porque a partir de ahí la información vieja no vale.</li>
+          <li>Rama aparte de curiosidad ociosa que abre taquillas al azar de vez en cuando:
+          así abrir una taquilla no es información fiable para el jugador.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="aside">
+      <p class="k">Control de prioridad</p>
+      <p>Con decoradores del árbol y observer aborts puestos a mano rama por rama, no con
+      banderas.</p>
+    </div>
+  </article>
+
+  <article class="sys">
+    <h3><span class="n">1.3</span>Equipamiento en red</h3>
+    <p class="tech">Replicación de Unreal · RPCs · animation notifies</p>
+    <div class="qa">
+      <div>
+        <p class="k">Problema</p>
+        <p>Equipar con animación deja de ser una asignación de variable y pasa a ser una
+        transición con duración. Dos frentes a la vez: la entrada del jugador es más rápida
+        que la animación (tres giros de rueda en medio segundo), y en coop el resultado tiene
+        que ser el mismo en cuatro máquinas, incluida la mano del compañero, que no tiene
+        predicción local.</p>
+      </div>
+      <div>
+        <p class="k">Qué decidí</p>
+        <p>Máquina de estados de tres fases que serializa equipar y desequipar. Si hay algo
+        en la mano, se guarda la intención, se lanza el montage de desequipar y el nuevo
+        objeto entra cuando ese termina. El objeto se spawnea oculto y lo revela un notify a
+        mitad de la animación: nunca hay un frame con el objeto flotando en la pose de
+        reposo.</p>
+      </div>
+      <div>
+        <p class="k">Por qué gana a lo obvio</p>
+        <p>Asignar la variable y lanzar un multicast se rompe de tres maneras conocidas: el
+        objeto salta a la mano antes de que la mano se mueva, pulsar rápido desincroniza
+        cliente y servidor, y un multicast lanzado desde un cliente no replica.</p>
+      </div>
+    </div>
+    <div class="aside">
+      <p class="k">Dos decisiones concretas</p>
+      <ul class="tight">
+        <li>Un solo campo de intención en vez de una cola: tres giros de rueda equipan el
+        último objeto, no los tres en fila.</li>
+        <li>El objeto equipado es un actor real anclado al socket, no una malla intercambiada.
+        Cuesta más en red, pero permite que la linterna tenga su spotlight y el llavero su
+        propio AnimBP.</li>
+      </ul>
+    </div>
+    <div class="aside">
+      <p class="k">Ruta</p>
+      <p>RPC al servidor → mutación autoritativa → multicast de animación, con RepNotify para
+      que los simulated proxies reconstruyan el enganche sin depender de haber recibido el
+      RPC.</p>
+    </div>
+  </article>
+</section>
+
+<!-- ============ HILLCLIMB3D ============ -->
+<section>
+  <p class="sec-label">Proyecto 02</p>
+  <h2>HillClimb3D</h2>
+  <p class="tagline">Recreación 3D de Hill Climb Racing.</p>
+  <p class="meta">Unreal Engine 5.8 · física arcade sobre Chaos Vehicles</p>
+
+  <div class="note">
+    <b>Base de partida.</b> Parte del Advanced Vehicle Template de Epic. Lo mío es el
+    componente de asistencia arcade en C++, el GameMode y el setup completo del vehículo
+    Chaos.
+  </div>
+
+  <article class="sys">
+    <h3><span class="n">2.1</span>Control aéreo arcade</h3>
+    <p class="tech">C++ sobre Chaos Vehicles</p>
+    <div class="qa">
+      <div>
+        <p class="k">Problema</p>
+        <p>El coche tiene que girar en el aire con el acelerador y aterrizar sobre las ruedas.
+        Chaos simula un rígido con cuatro ruedas y no tiene ninguna noción de esa intención.
+        Además, en pendientes fuertes a baja velocidad la fricción del neumático patina y el
+        coche se queda muerto en la cuesta.</p>
+      </div>
+      <div>
+        <p class="k">Por qué falla lo obvio</p>
+        <p>Rotar el actor directamente en el aire (<code>SetActorRotation</code> o interpolar
+        el rotador) se rompe de tres formas. Mover kinemáticamente un cuerpo que el solver
+        simula descarta su velocidad angular, así que el coche se congela al soltar y se
+        pierde toda la inercia. En el aterrizaje el rígido llega con una rotación que el
+        solver no predijo, las ruedas penetran el terreno y el coche salta. Y con substepping
+        asíncrono, el hilo de juego escribe la transform mientras el de física integra desde
+        la anterior: jitter visible.</p>
+      </div>
+      <div>
+        <p class="k">Qué decidí</p>
+        <p>El solver nunca deja de ser la autoridad. Se le habla solo con <code>AddForce</code>
+        y <code>AddTorqueInRadians</code>, y se le añade el único estado que no expone
+        cómodamente: si el coche toca suelo, calculado con un raycast propio a lo largo del eje
+        local del chasis. El trazo rota con el coche, así que en una rampa a 40° sigue apuntando
+        perpendicular a la carrocería. Ese flag reparte todo lo demás: en suelo, empuje de
+        tracción; en aire, torque de pitch sobre el eje lateral del chasis.</p>
+      </div>
+    </div>
+    <div class="aside">
+      <p class="k">El detalle que hace que se sienta bien</p>
+      <p>Auto-nivelado con banda muerta. Al soltar el acelerador en el aire, un torque
+      proporcional al ángulo de morro endereza el coche solo, así que el jugador nunca se queda
+      con un aterrizaje imposible, pero mientras pulsa tiene control total. Es un asistente de
+      aterrizaje disfrazado de física. Todo se aplica como aceleraciones y no como fuerzas, para
+      que el comportamiento no dependa de la masa.</p>
+    </div>
+  </article>
+
+  <article class="sys">
+    <h3><span class="n">2.2</span>Detección de vueltas</h3>
+    <p class="tech">C++ · integración de velocidad angular</p>
+    <div class="qa">
+      <div>
+        <p class="k">Problema</p>
+        <p>Dar puntos por cada 360° completo en el aire, en las dos direcciones, encadenando
+        vueltas, y solo mientras el coche no toca suelo.</p>
+      </div>
+      <div>
+        <p class="k">Por qué falla lo obvio</p>
+        <p>Leer el pitch del rotador y detectar el cruce de ±180 no funciona, y no por
+        precisión. En Unreal el pitch está confinado a [-90, 90]: el valor sube a 90, rebota y
+        baja, mientras roll y yaw pegan un salto de 180. La vuelta es literalmente invisible en
+        el pitch. Es gimbal lock, no se arregla con épsilons. Y aunque no lo fuera, el pitch del
+        mundo no es la vuelta del coche: una vuelta en una rampa girada 30° en yaw no es una
+        rotación de pitch mundial.</p>
+      </div>
+      <div>
+        <p class="k">Qué decidí</p>
+        <p>No se leen ángulos en ningún momento. Se integra la velocidad angular proyectada
+        sobre el eje derecho del propio coche. Es continua, no tiene wrap ni singularidades, y
+        al estar en el marco del cuerpo funciona sea cual sea la orientación de la pista. Al
+        superar 360° se resta conservando el signo en vez de poner a cero, así las vueltas
+        encadenadas no pierden el resto y un doble backflip cuenta dos. Como el signo se
+        conserva, backflip y frontflip puntúan igual sin código extra.</p>
+      </div>
+    </div>
+    <figure>
+      <figcaption>HC_ArcadeAssistComponent.cpp</figcaption>
+      <pre><code>void UHC_ArcadeAssistComponent::DetectFlip()
+{
+    if (!VehiclePhysicsComponent) return;
+
+    // Se integra velocidad angular, no angulos de Euler: el pitch de un FRotator
+    // esta confinado a [-90,90] y una vuelta completa nunca llega a acumularse.
+    FVector AngularVel = VehiclePhysicsComponent-&gt;GetPhysicsAngularVelocityInDegrees();
+    float PitchRate = FVector::DotProduct(AngularVel, VehiclePhysicsComponent-&gt;GetRightVector());
+
+    if (!bIsGrounded)
+    {
+        AccumulatedPitch += PitchRate * CachedDeltaTime;
+        if (FMath::Abs(AccumulatedPitch) &gt;= 360.f)
+        {
+            if (AHC_GameMode* GM = Cast&lt;AHC_GameMode&gt;(GetWorld()-&gt;GetAuthGameMode()))
+            {
+                GM-&gt;AddPoints(PointsPerFlip);
+            }
+            // Se resta en lugar de poner a cero: las vueltas encadenadas
+            // conservan el resto y un doble backflip puntua dos veces.
+            AccumulatedPitch -= FMath::Sign(AccumulatedPitch) * 360.f;
+        }
+    }
+    else
+    {
+        AccumulatedPitch = 0.f;
+    }
+}</code></pre>
+    </figure>
+  </article>
+</section>
+
+<!-- ============ PUBLICADOS ============ -->
+<section>
+  <p class="sec-label">Publicados</p>
+  <h2>Otros proyectos</h2>
+  <div class="cards">
+
+    <div class="card">
+      <h3>Take Care (Of Me)</h3>
+      <p class="meta">Unreal Engine · Steam</p>
+      <p class="desc">Juego de historia de unos 30 minutos, programado íntegramente por mí.
+      Sistema de interacción resuelto con interfaz de Blueprint sobre una clase base de objeto
+      interactuable.</p>
+    </div>
+
+    <div class="card">
+      <h3>York's Pizza Express</h3>
+      <p class="meta">Unreal Engine · itch.io</p>
+      <p class="desc">Arcade de reparto contrarreloj. IA simple de perros, destinos de entrega
+      aleatorios tomados de un array de puntos del mapa, bonificación por tiempo y respawn con
+      sistema de partículas tras ser atropellado.</p>
+      <div class="links"><a href="https://pixellz.itch.io" rel="noopener">itch.io</a></div>
+    </div>
+
+    <div class="card proto">
+      <h3>MultiParty</h3>
+      <p class="meta">Prototipo</p>
+      <p class="desc">Cuatro jugadores en local, cuatro minijuegos. Proyecto temprano.</p>
+    </div>
+
+    <div class="card proto">
+      <h3>The Secret of the Village</h3>
+      <p class="meta">Prototipo</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p><a href="mailto:pixellzdev04@gmail.com">pixellzdev04@gmail.com</a></p>
+  <p><a href="https://youtu.be/MECEkKVvrVQ" rel="noopener">Reel</a></p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var KW = /^(if|else|return|for|while|switch|case|break|continue|const|static|void|float|int|bool|auto|true|false|nullptr|new|delete|class|struct|template|typename|this)$/;
+  var TY = /^(F[A-Z]|U[A-Z]|A[A-Z]|E[A-Z]|T[A-Z])/;
+  var RE = /(\/\/[^\n]*)|("(?:\\.|[^"\\])*")|(\b\d[\d.]*f?\b)|([A-Za-z_]\w*)/g;
+  function esc(s){
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function span(cls,s){ return '<span class="'+cls+'">'+esc(s)+'</span>'; }
+  var blocks = document.querySelectorAll('pre code');
+  for (var b=0;b<blocks.length;b++){
+    var src = blocks[b].textContent, out = '', last = 0, m;
+    RE.lastIndex = 0;
+    while ((m = RE.exec(src)) !== null){
+      out += esc(src.slice(last, m.index));
+      if (m[1])      out += span('t-cm', m[1]);
+      else if (m[2]) out += span('t-st', m[2]);
+      else if (m[3]) out += span('t-nu', m[3]);
+      else {
+        var w = m[4], nxt = src.charAt(RE.lastIndex);
+        if (KW.test(w))                       out += span('t-kw', w);
+        else if (nxt === '(')                 out += span('t-fn', w);
+        else if (TY.test(w) && w.length > 2)  out += span('t-ty', w);
+        else                                  out += esc(w);
+      }
+      last = RE.lastIndex;
+    }
+    out += esc(src.slice(last));
+    blocks[b].innerHTML = out;
+  }
+})();
+</script>
+</body>
+</html>
