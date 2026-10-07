@@ -4,122 +4,231 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Fran León — Gameplay Programmer</title>
-<meta name="description" content="Fran León. Gameplay programmer. Unreal Engine 5.8, C++ y Blueprints. IA, replicación y física.">
+<meta name="description" content="Fran León. Gameplay programmer en Unreal Engine 5, C++ y Blueprints. IA, multijugador y física.">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#0c0e11">
+<meta name="theme-color" content="#12151b">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pixeilzz.github.io/">
+<meta property="og:title" content="Fran León — Gameplay Programmer">
+<meta property="og:description" content="Gameplay programmer in Unreal Engine 5 (C++ and Blueprints): AI, multiplayer and physics systems.">
+<meta property="og:image" content="https://pixeilzz.github.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box}
 :root{
-  --bg:#0c0e11;
-  --panel:#12151a;
-  --panel2:#171b21;
-  --line:#232830;
-  --tx:#d6dae0;
-  --dim:#8a939f;
-  --dim2:#6b7480;
-  --acc:#7fa8d9;
-  --warn:#c9a227;
+  --bg:#12151b;
+  --bg2:#151922;
+  --panel:#1a1f28;
+  --panel2:#202631;
+  --line:#2a313c;
+  --tx:#e3e7ec;
+  --dim:#9aa3af;
+  --dim2:#737c89;
+  --gold:#f5c83b;
+  --y1:#ffb007;
+  --y2:#ffc812;
+  --ink:#151922;
   --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"DejaVu Sans Mono",monospace;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --head:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 }
 /* --- conmutador de idioma, solo CSS --- */
 :root[data-lang="es"] [lang="en"]{display:none}
 :root[data-lang="en"] [lang="es"]{display:none}
 
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:70px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{
   margin:0;background:var(--bg);color:var(--tx);
-  font-family:var(--sans);font-size:16px;line-height:1.62;
+  font-family:var(--sans);font-size:16px;line-height:1.65;
   -webkit-font-smoothing:antialiased;
   overflow-wrap:break-word;
 }
-.wrap{max-width:760px;margin:0 auto;padding:0 18px 72px}
-a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(127,168,217,.35)}
-a:hover{border-bottom-color:var(--acc)}
-h1,h2,h3,h4{line-height:1.25;margin:0;font-weight:600}
-code{font-family:var(--mono);font-size:.88em;color:#b9c4d0}
-
-/* ---------- cabecera ---------- */
-header{padding:26px 0 26px;border-bottom:1px solid var(--line)}
-.langbar{display:flex;justify-content:flex-end;margin:0 0 16px}
-.langtoggle{display:inline-flex;border:1px solid var(--line);border-radius:5px;overflow:hidden}
-.langtoggle button{
-  appearance:none;border:0;margin:0;cursor:pointer;
-  background:var(--panel);color:var(--dim);
-  font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;
-  padding:0 15px;min-height:38px;min-width:52px;
-}
-.langtoggle button + button{border-left:1px solid var(--line)}
-.langtoggle button[aria-pressed="true"]{background:var(--acc);color:#0c0e11;font-weight:600}
-.langtoggle button:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
-h1{font-size:1.75rem;letter-spacing:-.01em}
-.role{margin:6px 0 0;font-size:1.02rem;color:var(--tx)}
-.stack{margin:8px 0 0;font-family:var(--mono);font-size:.82rem;color:var(--dim);line-height:1.55}
-nav{margin:20px 0 0;display:flex;flex-wrap:wrap;gap:9px}
-nav a{
-  border:1px solid var(--line);border-radius:5px;background:var(--panel);
-  padding:9px 14px;font-family:var(--mono);font-size:.82rem;color:var(--tx);
-  min-height:44px;display:inline-flex;align-items:center;
-}
-nav a:hover{border-color:var(--acc);color:var(--acc)}
-nav a#mail-link.copied{border-color:var(--acc);color:var(--acc);background:rgba(127,168,217,.12)}
+a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(245,200,59,.35)}
+a:hover{border-bottom-color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+h1,h2,h3,h4{line-height:1.2;margin:0;font-family:var(--head);font-weight:700}
+code{font-family:var(--mono);font-size:.88em;color:#c4ccd6}
+.wrap{max-width:820px;margin:0 auto;padding:0 18px}
+.wide{max-width:1080px;margin:0 auto;padding:0 18px}
+.icon{width:20px;height:20px;fill:currentColor;flex:none}
 .sr-live{
   position:absolute;width:1px;height:1px;margin:-1px;padding:0;
   overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
 }
 
+/* ---------- barra superior ---------- */
+.topbar{
+  position:sticky;top:0;z-index:20;
+  background:rgba(18,21,27,.88);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .wide{display:flex;align-items:center;gap:10px;min-height:58px}
+.brand{
+  display:flex;align-items:center;gap:9px;border:0;color:var(--tx);
+  font-family:var(--head);font-weight:700;font-size:1rem;white-space:nowrap;flex:none;
+}
+.brand img{width:32px;height:32px;display:block}
+.brand span{display:none}
+.menu{display:flex;gap:2px;margin-left:auto;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.menu::-webkit-scrollbar{display:none}
+.menu a{
+  border:0;color:var(--dim);font-family:var(--head);font-weight:500;font-size:.84rem;
+  padding:0 10px;min-height:40px;display:inline-flex;align-items:center;border-radius:6px;white-space:nowrap;
+}
+.menu a:hover{color:var(--tx);background:var(--panel)}
+.langtoggle{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;flex:none}
+.langtoggle button{
+  appearance:none;border:0;margin:0;cursor:pointer;
+  background:var(--panel);color:var(--dim);
+  font-family:var(--head);font-weight:600;font-size:.76rem;letter-spacing:.04em;
+  padding:0 12px;min-height:40px;min-width:44px;
+}
+.langtoggle button + button{border-left:1px solid var(--line)}
+.langtoggle button[aria-pressed="true"]{background:var(--gold);color:var(--ink)}
+.langtoggle button:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+
+/* ---------- cabecera (estilo banner) ---------- */
+.hero{
+  position:relative;overflow:hidden;border-bottom:1px solid var(--line);
+  background:radial-gradient(ellipse 900px 520px at 70% 30%,rgba(255,255,255,.035),transparent 70%),var(--bg2);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,0) 0 70px,rgba(255,255,255,.018) 70px 140px);
+}
+.hero-inner{position:relative;padding-top:30px;padding-bottom:46px}
+/* franja amarilla diagonal: misma inclinacion que el banner */
+.hero .yellow{
+  position:absolute;top:0;bottom:0;right:calc(100% - 92px);width:100vw;
+  background:linear-gradient(20deg,var(--y1),var(--y2));
+  transform:skewX(-17.6deg);transform-origin:top right;
+}
+.hero-wolf{position:relative;width:168px;height:auto;display:block}
+.hero-text{position:relative;margin-top:22px}
+.hello{margin:0;font-family:var(--head);font-weight:600;font-size:.9rem;letter-spacing:.32em;color:var(--gold)}
+.hero h1{margin:6px 0 0;font-size:2.5rem;font-weight:800;letter-spacing:-.01em;color:#f1f4f9}
+.hero-stack{
+  margin:12px 0 0;font-family:var(--head);font-weight:600;font-size:.8rem;
+  letter-spacing:.14em;color:#c7d0dc;text-transform:uppercase;
+}
+.hero-stack b{color:var(--gold);font-weight:600;margin:0 .45em}
+.hero-intro{margin:18px 0 0;max-width:560px;color:var(--tx);font-size:1.02rem}
+.where{margin:12px 0 0;display:flex;align-items:center;gap:7px;color:var(--dim);font-size:.92rem}
+.where .icon{width:16px;height:16px;color:var(--gold)}
+.actions{margin:24px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;min-height:46px;padding:0 18px;
+  border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--tx);
+  font-family:var(--head);font-weight:600;font-size:.9rem;
+}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.btn .icon{width:18px;height:18px}
+.btn.primary{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.btn.primary:hover{background:#ffd75a;color:var(--ink)}
+.btn.copied{border-color:var(--gold);color:var(--gold);background:rgba(245,200,59,.12)}
+.socials{margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.socials a{
+  width:44px;height:44px;display:inline-grid;place-items:center;border:1px solid var(--line);
+  border-radius:50%;background:var(--panel);color:var(--dim);
+}
+.socials a:hover{color:var(--gold);border-color:var(--gold)}
+
 /* ---------- secciones ---------- */
-section{padding-top:34px}
+.block{padding-top:64px}
+.eyebrow{
+  margin:0 0 8px;font-family:var(--head);font-weight:600;font-size:.76rem;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
+}
+.sec-title{font-size:1.85rem;font-weight:800;color:#f1f4f9}
+.sec-lead{margin:10px 0 0;color:var(--dim)}
+
+/* reel */
+.reel{
+  margin:22px 0 0;position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;
+  border:1px solid var(--line);background:#000;
+}
+.reel button{appearance:none;border:0;padding:0;margin:0;width:100%;height:100%;cursor:pointer;display:block;background:none}
+.reel button img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease,filter .35s ease}
+.reel button:hover img{transform:scale(1.025);filter:brightness(1.08)}
+.reel iframe{width:100%;height:100%;border:0;display:block}
+.reel-alt{margin:10px 0 0;font-size:.88rem;color:var(--dim)}
+
+/* sobre mi */
+.about{margin:22px 0 0;display:grid;gap:22px}
+.about p{margin:0 0 14px}
+.about p:last-child{margin-bottom:0}
+.facts{margin:0;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel);display:grid;gap:12px}
+.facts div{display:grid;gap:1px}
+.facts dt{font-family:var(--head);font-weight:600;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim2)}
+.facts dd{margin:0;font-size:.95rem}
+
+/* ---------- proyectos (casos de estudio) ---------- */
+.project{padding-top:44px}
 .sec-label{
   font-family:var(--mono);font-size:.72rem;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--dim2);margin:0 0 10px
+  text-transform:uppercase;color:var(--dim2);margin:0 0 8px
 }
-h2{font-size:1.35rem;letter-spacing:-.01em}
-.tagline{margin:8px 0 0;color:var(--dim);font-size:.94rem}
+.ptitle{font-size:1.55rem;color:#f1f4f9;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;font-family:var(--head);font-weight:600;font-size:.72rem;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--gold);
+  border:1px solid rgba(245,200,59,.45);background:rgba(245,200,59,.08);border-radius:999px;padding:3px 10px;
+}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.tagline{margin:8px 0 0;color:var(--dim);font-size:.98rem}
 .meta{margin:6px 0 0;font-family:var(--mono);font-size:.78rem;color:var(--dim2)}
 
 .note{
-  margin:14px 0 0;padding:11px 13px;border:1px solid var(--line);
-  border-left:2px solid var(--warn);border-radius:0 4px 4px 0;background:var(--panel);
-  font-size:.87rem;color:var(--dim);
+  margin:16px 0 0;padding:12px 14px;border:1px solid var(--line);
+  border-left:3px solid var(--gold);border-radius:0 8px 8px 0;background:var(--panel);
+  font-size:.9rem;color:var(--dim);
 }
 .note b{color:var(--tx);font-weight:600}
 
-/* ---------- bloque de sistema ---------- */
 .sys{
-  margin:20px 0 0;padding:16px 15px;background:var(--panel);
-  border:1px solid var(--line);border-radius:6px;
+  margin:20px 0 0;padding:18px 16px;background:var(--panel);
+  border:1px solid var(--line);border-radius:12px;
 }
-.sys h3{font-size:1.02rem}
-.sys h3 .n{font-family:var(--mono);color:var(--dim2);font-weight:400;margin-right:8px}
-.tech{margin:5px 0 0;font-family:var(--mono);font-size:.76rem;color:var(--acc);opacity:.85}
+.sys h4{font-size:1.08rem;color:#f1f4f9}
+.sys h4 .n{font-family:var(--mono);color:var(--gold);font-weight:400;margin-right:9px;font-size:.9em}
+.tech{margin:5px 0 0;font-family:var(--mono);font-size:.76rem;color:var(--gold);opacity:.8}
 .qa{margin:14px 0 0}
-.qa > div + div{margin-top:13px}
+.qa > div + div{margin-top:14px}
 .k{
   font-family:var(--mono);font-size:.71rem;letter-spacing:.11em;text-transform:uppercase;
   color:var(--dim2);margin:0 0 3px;
 }
-.qa p{margin:0;font-size:.94rem}
-ul.tight{margin:9px 0 0;padding-left:17px}
-ul.tight li{margin:0 0 7px;font-size:.92rem;color:var(--tx)}
+.qa p{margin:0;font-size:.95rem}
+ul.tight{margin:9px 0 0;padding-left:18px}
+ul.tight li{margin:0 0 7px;font-size:.93rem;color:var(--tx)}
 ul.tight li:last-child{margin-bottom:0}
+ul.tight li::marker{color:var(--gold)}
 .aside{
-  margin:13px 0 0;padding-top:12px;border-top:1px solid var(--line);
-  font-size:.89rem;color:var(--dim)
+  margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);
+  font-size:.9rem;color:var(--dim)
 }
-.aside p:not(.k){margin:0;font-size:.92rem}
+.aside p:not(.k){margin:0;font-size:.93rem}
 .aside .k{margin-bottom:4px}
 
-/* ---------- código ---------- */
+/* ---------- codigo ---------- */
 figure{margin:20px 0 0}
 figcaption{
   font-family:var(--mono);font-size:.73rem;color:var(--dim2);
   padding:8px 12px;background:var(--panel2);border:1px solid var(--line);
-  border-bottom:0;border-radius:6px 6px 0 0;
+  border-bottom:0;border-radius:8px 8px 0 0;
 }
 pre{
   margin:0;padding:13px 14px;background:#0f1216;border:1px solid var(--line);
-  border-radius:0 0 6px 6px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  border-radius:0 0 8px 8px;overflow-x:auto;-webkit-overflow-scrolling:touch;
 }
 pre code{
   font-family:var(--mono);font-size:12px;line-height:1.62;
@@ -132,37 +241,92 @@ pre code{
 .t-nu{color:#e8907a}
 .t-st{color:#a5c97f}
 
-/* ---------- tarjetas publicadas ---------- */
-.cards{margin:18px 0 0;display:grid;gap:11px}
+/* ---------- tarjetas ---------- */
+.cards{margin:20px 0 0;display:grid;gap:12px}
 .card{
-  padding:14px 15px;background:var(--panel);border:1px solid var(--line);border-radius:6px;
+  padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  display:flex;flex-direction:column;
 }
-.card h3{font-size:.98rem}
+.card h4{font-size:1.02rem;color:#f1f4f9}
 .card .meta{margin:4px 0 0}
-.card p.desc{margin:8px 0 0;font-size:.9rem;color:var(--dim)}
-.card .links{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.card p.desc{margin:9px 0 0;font-size:.92rem;color:var(--dim)}
+.card .links{margin:auto 0 0;padding-top:12px;display:flex;flex-wrap:wrap;gap:8px}
 .card .links a{
-  font-family:var(--mono);font-size:.76rem;border:1px solid var(--line);border-radius:4px;
-  padding:6px 10px;min-height:36px;display:inline-flex;align-items:center;
+  font-family:var(--head);font-weight:600;font-size:.8rem;border:1px solid var(--line);border-radius:6px;
+  padding:0 12px;min-height:38px;display:inline-flex;align-items:center;gap:7px;color:var(--tx);
 }
+.card .links a:hover{border-color:var(--gold);color:var(--gold)}
+.card .links .icon{width:15px;height:15px}
 .card.proto{background:transparent}
 
-/* ---------- pie ---------- */
-footer{
-  margin-top:46px;padding-top:22px;border-top:1px solid var(--line);
-  font-family:var(--mono);font-size:.82rem;color:var(--dim);
+/* ---------- experiencia y formacion ---------- */
+.timeline{margin:22px 0 0;padding:0;list-style:none;border-left:2px solid var(--line)}
+.timeline > li{position:relative;padding:0 0 26px 22px}
+.timeline > li:last-child{padding-bottom:0}
+.timeline > li::before{
+  content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--gold);
 }
-footer p{margin:0 0 6px}
-footer a{display:inline-block;padding:9px 0}
+.timeline > li.now::before{background:var(--gold)}
+.tl-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:2px 14px}
+.tl-head h3{font-size:1.12rem;color:#f1f4f9}
+.when{font-family:var(--mono);font-size:.8rem;color:var(--dim2);white-space:nowrap}
+.tl-role{margin:3px 0 0;font-family:var(--head);font-weight:500;font-size:.92rem;color:var(--gold)}
+.tl-desc{margin:8px 0 0;font-size:.94rem;color:var(--dim)}
 
+/* ---------- habilidades ---------- */
+.skills{margin:22px 0 0;display:grid;gap:18px}
+.skills h3{font-size:.8rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--dim2)}
+.chips{margin:9px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.chips span{
+  font-family:var(--head);font-weight:500;font-size:.85rem;color:#d3d9e1;
+  padding:6px 13px;border:1px solid var(--line);border-radius:999px;background:var(--panel);
+}
+
+/* ---------- contacto ---------- */
+.cta{
+  position:relative;overflow:hidden;margin:22px 0 0;padding:26px 20px;
+  border:1px solid var(--line);border-radius:14px;background:var(--panel);
+}
+.cta::after{
+  content:"";position:absolute;top:0;bottom:0;left:calc(100% - 40px);width:200px;
+  background:linear-gradient(20deg,var(--y1),var(--y2));transform:skewX(-17.6deg);transform-origin:bottom left;
+}
+.cta > *{position:relative;z-index:1}
+.cta h3{font-size:1.45rem;color:#f1f4f9}
+.cta p{margin:10px 0 0;color:var(--dim);max-width:520px}
+.cta .actions{margin-top:20px}
+
+/* ---------- pie ---------- */
+footer{margin-top:72px;border-top:1px solid var(--line);padding:24px 0 40px}
+footer .wide{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+.foot-brand{display:flex;align-items:center;gap:10px;color:var(--dim);font-size:.88rem}
+.foot-brand img{width:28px;height:28px}
+footer .socials{margin:0}
+
+@media (min-width:560px){
+  .brand span{display:inline}
+}
 @media (min-width:700px){
   body{font-size:17px}
-  h1{font-size:2.1rem}
-  h2{font-size:1.5rem}
-  .wrap{padding:0 28px 88px}
-  .sys{padding:20px 22px}
+  .wrap{padding:0 28px}
+  .wide{padding:0 28px}
+  .sys{padding:22px 24px}
   pre code{font-size:13px}
   .cards{grid-template-columns:1fr 1fr}
+  .about{grid-template-columns:1fr 250px;align-items:start}
+  .skills{grid-template-columns:1fr 1fr}
+  .cta{padding:34px 34px}
+  .cta::after{left:calc(100% - 70px);transform-origin:top left}
+  .cta h3,.cta p{padding-right:60px}
+}
+@media (min-width:860px){
+  .hero-inner{display:grid;grid-template-columns:300px 1fr;align-items:center;gap:56px;padding-top:64px;padding-bottom:70px}
+  .hero .yellow{right:calc(100% - 210px)}
+  .hero-wolf{width:300px}
+  .hero-text{margin-top:0}
+  .hero h1{font-size:3.6rem}
+  .hero-stack{font-size:.86rem}
 }
 </style>
 <script>
@@ -180,33 +344,145 @@ footer a{display:inline-block;padding:9px 0}
 </script>
 </head>
 <body>
-<div class="wrap">
 
-<header>
-  <div class="langbar">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol>
+  <symbol id="i-youtube" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></symbol>
+  <symbol id="i-itch" viewBox="0 0 24 24"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v1.03c0 1.303 1.22 2.45 2.325 2.45 1.33 0 2.436-1.102 2.436-2.41 0 1.308 1.07 2.41 2.4 2.41 1.328 0 2.362-1.102 2.362-2.41 0 1.308 1.137 2.41 2.466 2.41h.024c1.33 0 2.466-1.102 2.466-2.41 0 1.308 1.034 2.41 2.363 2.41 1.33 0 2.4-1.102 2.4-2.41 0 1.308 1.106 2.41 2.435 2.41C22.78 8.43 24 7.282 24 5.98V4.95c-.02-.62-2.082-2.99-3.13-3.612-3.253-.114-5.508-.134-8.87-.133-3.362 0-7.945.053-8.87.133zm6.376 6.477a2.74 2.74 0 0 1-.468.602c-.5.49-1.19.795-1.947.795a2.786 2.786 0 0 1-1.95-.795c-.182-.178-.32-.37-.446-.59-.127.222-.303.412-.486.59a2.788 2.788 0 0 1-1.95.795c-.092 0-.187-.025-.264-.052-.107 1.113-.152 2.176-.168 2.95v.005l-.006 1.167c.02 2.334-.23 7.564 1.03 8.85 1.952.454 5.545.662 9.15.663 3.605 0 7.198-.21 9.15-.664 1.26-1.284 1.01-6.514 1.03-8.848l-.006-1.167v-.004c-.016-.775-.06-1.838-.168-2.95-.077.026-.172.052-.263.052a2.788 2.788 0 0 1-1.95-.795c-.184-.178-.36-.368-.486-.59-.127.22-.265.412-.447.59a2.786 2.786 0 0 1-1.95.794c-.76 0-1.446-.303-1.948-.793a2.74 2.74 0 0 1-.468-.602 2.738 2.738 0 0 1-.463.602 2.787 2.787 0 0 1-1.95.794h-.16a2.787 2.787 0 0 1-1.95-.793 2.738 2.738 0 0 1-.464-.602zm-2.004 2.59v.002c.795.002 1.5 0 2.373.953.687-.072 1.406-.108 2.125-.107.72 0 1.438.035 2.125.107.873-.953 1.578-.95 2.372-.953.376 0 1.876 0 2.92 2.934l1.123 4.028c.832 2.995-.266 3.068-1.636 3.07-2.03-.075-3.156-1.55-3.156-3.025-1.124.184-2.436.276-3.748.277-1.312 0-2.624-.093-3.748-.277 0 1.475-1.125 2.95-3.156 3.026-1.37-.004-2.468-.077-1.636-3.072l1.122-4.027c1.045-2.934 2.545-2.934 2.92-2.934zM12 12.714c-.002.002-2.14 1.964-2.523 2.662l1.4-.056v1.22c0 .056.56.033 1.123.007.562.026 1.124.05 1.124-.008v-1.22l1.4.055C14.138 14.677 12 12.713 12 12.713z"/></symbol>
+  <symbol id="i-linktree" viewBox="0 0 24 24"><path d="m13.73635 5.85251 4.00467-4.11665 2.3248 2.3808-4.20064 4.00466h5.9085v3.30473h-5.9365l4.22865 4.10766-2.3248 2.3338L12.0005 12.099l-5.74052 5.76852-2.3248-2.3248 4.22864-4.10766h-5.9375V8.12132h5.9085L3.93417 4.11666l2.3248-2.3808 4.00468 4.11665V0h3.4727zm-3.4727 10.30614h3.4727V24h-3.4727z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.14v13.72a1 1 0 0 0 1.5.86l11-6.86a1 1 0 0 0 0-1.72l-11-6.86A1 1 0 0 0 8 5.14z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2.4V17h16V7.4l-8 5.6-8-5.6zM5.6 7l6.4 4.5L18.4 7H5.6z"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 2h8l6 6v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm7 1.5V9h5.5L13 3.5zM8 13h8v1.6H8V13zm0 4h8v1.6H8V17z"/></symbol>
+</svg>
+
+<div class="topbar">
+  <div class="wide">
+    <a class="brand" href="#top" aria-label="Fran León"><img src="assets/favicon.png" alt="" width="32" height="32"><span>Fran León</span></a>
+    <nav class="menu" aria-label="Secciones">
+      <a href="#reel">Reel</a>
+      <a href="#proyectos"><span lang="es">Proyectos</span><span lang="en">Projects</span></a>
+      <a href="#experiencia"><span lang="es">Experiencia</span><span lang="en">Experience</span></a>
+      <a href="#formacion"><span lang="es">Formación</span><span lang="en">Education</span></a>
+      <a href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
+    </nav>
     <div class="langtoggle" role="group" aria-label="Idioma / Language">
       <button type="button" id="btn-es" data-lang="es" aria-pressed="true">ES</button>
       <button type="button" id="btn-en" data-lang="en" aria-pressed="false">EN</button>
     </div>
   </div>
-  <h1>Fran León</h1>
-  <p class="role">Gameplay Programmer</p>
-  <p class="stack" lang="es">Unreal Engine 5.8 · C++ / Blueprints · IA, replicación y física</p>
-  <p class="stack" lang="en">Unreal Engine 5.8 · C++ / Blueprints · AI, replication and physics</p>
-  <nav>
-    <a href="https://youtu.be/9Jv1va2Jqww" target="_blank" rel="noopener">Reel</a>
-    <a id="cv-link" href="cv-fran-leon-es.pdf" target="_blank" rel="noopener">CV</a>
-    <a id="mail-link" href="mailto:pixellzdev04@gmail.com"
-       title="pixellzdev04@gmail.com"><span id="mail-text">Email</span></a>
-  </nav>
-  <p class="sr-live" id="mail-live" role="status" aria-live="polite"></p>
+</div>
+
+<header class="hero" id="top">
+  <div class="wide hero-inner">
+    <div class="yellow" aria-hidden="true"></div>
+    <img class="hero-wolf" src="assets/wolf.png" alt="Logo PixellzDEV" width="567" height="560">
+    <div class="hero-text">
+      <p class="hello">FRAN LEÓN</p>
+      <h1>Gameplay Programmer</h1>
+      <p class="hero-stack">Unreal Engine 5<b>·</b>Blueprints<b>|</b>C++</p>
+      <p class="hero-intro" lang="es">Programo sistemas de gameplay en Unreal Engine 5: IA, multijugador
+      y físicas, en C++ y Blueprints. Ahora estoy cursando el máster de Voxel School y busco mi
+      primer puesto como programador.</p>
+      <p class="hero-intro" lang="en">I build gameplay systems in Unreal Engine 5: AI, multiplayer and
+      physics, in C++ and Blueprints. I'm currently studying a master's at Voxel School and looking
+      for my first role as a programmer.</p>
+      <p class="where"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>
+        <span lang="es">Las Palmas de Gran Canaria · Disponible en remoto</span>
+        <span lang="en">Las Palmas de Gran Canaria, Spain · Open to remote</span></p>
+      <div class="actions">
+        <a class="btn primary" href="#reel"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>
+          <span lang="es">Ver reel</span><span lang="en">Watch reel</span></a>
+        <a class="btn cv-link" href="cv-fran-leon-es.pdf" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-doc"/></svg>CV</a>
+        <a class="btn mail-btn" href="mailto:pixellzdev04@gmail.com" title="pixellzdev04@gmail.com"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg><span class="mail-text">Email</span></a>
+      </div>
+      <div class="socials">
+        <a href="https://www.linkedin.com/in/francisco-javier-le%C3%B3n-p%C3%A9rez-8aa561298/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+        <a href="https://www.youtube.com/@PixeIlzz" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg class="icon" aria-hidden="true"><use href="#i-youtube"/></svg></a>
+        <a href="https://pixellz.itch.io" target="_blank" rel="noopener" aria-label="itch.io" title="itch.io"><svg class="icon" aria-hidden="true"><use href="#i-itch"/></svg></a>
+        <a href="https://linktr.ee/pixellzdev" target="_blank" rel="noopener" aria-label="Linktree" title="Linktree"><svg class="icon" aria-hidden="true"><use href="#i-linktree"/></svg></a>
+      </div>
+    </div>
+  </div>
+  <p class="sr-live mail-live" role="status" aria-live="polite"></p>
 </header>
 
-<!-- ============ NIGHTMARELOOP ============ -->
-<section>
+<main class="wrap">
+
+<!-- ============ REEL ============ -->
+<section class="block" id="reel">
+  <p class="eyebrow">Reel</p>
+  <h2 class="sec-title" lang="es">Reel de gameplay</h2>
+  <h2 class="sec-title" lang="en">Gameplay reel</h2>
+  <div class="reel" id="reel-player">
+    <button type="button" aria-label="Reproducir reel / Play reel">
+      <img src="assets/reel-thumb.png" alt="" width="1280" height="720" loading="lazy">
+    </button>
+  </div>
+  <p class="reel-alt"><span lang="es">¿No carga?</span><span lang="en">Not loading?</span>
+    <a href="https://youtu.be/9Jv1va2Jqww" target="_blank" rel="noopener"><span lang="es">Ver en YouTube</span><span lang="en">Watch on YouTube</span></a></p>
+</section>
+
+<!-- ============ SOBRE MI ============ -->
+<section class="block" id="sobre-mi">
+  <p class="eyebrow" lang="es">Sobre mí</p>
+  <p class="eyebrow" lang="en">About me</p>
+  <h2 class="sec-title" lang="es">Me gusta entender por qué funciona</h2>
+  <h2 class="sec-title" lang="en">I like knowing why it works</h2>
+  <div class="about">
+    <div>
+      <div lang="es">
+        <p>Soy Fran, programador de gameplay junior. Lo que más me interesa son los sistemas: cómo
+        piensa una IA, cómo se sincroniza una acción entre cuatro jugadores o cómo se consigue que un
+        coche se sienta bien en el aire. Me gusta entender por qué funciona lo que programo, no solo
+        que funcione, así que en cada proyecto explico el problema, lo que decidí y por qué.</p>
+        <p>Soy Técnico Superior en Animación 3D, Juegos y Entornos Interactivos por el CIFP Felo
+        Monzón, hice prácticas en Moonmana y SparklingTech, y ahora estoy cursando el máster de
+        desarrollo de videojuegos de Voxel School. Haber trabajado también con modelado y texturizado
+        me ayuda a entenderme con el equipo de arte.</p>
+      </div>
+      <div lang="en">
+        <p>I'm Fran, a junior gameplay programmer. What interests me most is systems: how an AI
+        thinks, how an action stays in sync across four players, or how to make a car feel right in
+        the air. I like understanding why my code works, not just making it work, so for each project
+        I explain the problem, what I decided and why.</p>
+        <p>I hold a Higher Technician Diploma in 3D Animation, Games and Interactive Environments
+        from CIFP Felo Monzón, did internships at Moonmana and SparklingTech, and I'm currently
+        studying a master's in game development at Voxel School. My background in 3D modelling and
+        texturing helps me work smoothly with art teams.</p>
+      </div>
+    </div>
+    <dl class="facts">
+      <div><dt lang="es">Ubicación</dt><dt lang="en">Location</dt>
+        <dd>Las Palmas de Gran Canaria</dd></div>
+      <div><dt lang="es">Disponibilidad</dt><dt lang="en">Availability</dt>
+        <dd lang="es">En remoto</dd><dd lang="en">Remote</dd></div>
+      <div><dt lang="es">Idiomas</dt><dt lang="en">Languages</dt>
+        <dd lang="es">Español (nativo) · Inglés (B1)</dd><dd lang="en">Spanish (native) · English (B1)</dd></div>
+      <div><dt lang="es">Ahora</dt><dt lang="en">Now</dt>
+        <dd lang="es">Máster en Voxel School</dd><dd lang="en">Master's at Voxel School</dd></div>
+      <div><dt lang="es">Fuera del código</dt><dt lang="en">Away from code</dt>
+        <dd lang="es">Souls, Valorant y cooperativos con amigos</dd><dd lang="en">Soulslikes, Valorant and co-op games with friends</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ PROYECTOS ============ -->
+<section class="block" id="proyectos">
+  <p class="eyebrow" lang="es">Proyectos</p>
+  <p class="eyebrow" lang="en">Projects</p>
+  <h2 class="sec-title" lang="es">Casos de estudio</h2>
+  <h2 class="sec-title" lang="en">Case studies</h2>
+  <p class="sec-lead" lang="es">Cada sistema explicado igual: el problema, lo que decidí y por qué gana a la solución obvia.</p>
+  <p class="sec-lead" lang="en">Every system explained the same way: the problem, what I decided and why it beats the obvious solution.</p>
+</section>
+
+
+<!-- ============ THE LAST NIGHTMARE ============ -->
+<section class="project" id="the-last-nightmare">
   <p class="sec-label" lang="es">Proyecto 01</p>
   <p class="sec-label" lang="en">Project 01</p>
-  <h2>NightmareLoop</h2>
+  <h3 class="ptitle">The Last Nightmare <span class="badge" lang="es">En desarrollo</span><span class="badge" lang="en">In development</span></h3>
   <p class="tagline" lang="es">Coop de terror en Unreal Engine 5.8.</p>
   <p class="tagline" lang="en">Co-op horror in Unreal Engine 5.8.</p>
   <p class="meta" lang="es">Vertical slice de sistemas · demo técnica, no un juego terminado</p>
@@ -224,8 +500,8 @@ footer a{display:inline-block;padding:9px 0}
   </div>
 
   <article class="sys">
-    <h3 lang="es"><span class="n">1.1</span>Percepción graduada por jugador</h3>
-    <h3 lang="en"><span class="n">1.1</span>Per-player graded perception</h3>
+    <h4 lang="es"><span class="n">1.1</span>Percepción graduada por jugador</h4>
+    <h4 lang="en"><span class="n">1.1</span>Per-player graded perception</h4>
     <p class="tech">AIPerception · C++ · Behavior Tree</p>
     <div class="qa">
       <div lang="es">
@@ -321,8 +597,8 @@ footer a{display:inline-block;padding:9px 0}
   </article>
 
   <article class="sys">
-    <h3 lang="es"><span class="n">1.2</span>Escondites con memoria</h3>
-    <h3 lang="en"><span class="n">1.2</span>Hiding spots with memory</h3>
+    <h4 lang="es"><span class="n">1.2</span>Escondites con memoria</h4>
+    <h4 lang="en"><span class="n">1.2</span>Hiding spots with memory</h4>
     <p class="tech" lang="es">Behavior Tree · blackboard · navegación</p>
     <p class="tech" lang="en">Behavior Tree · blackboard · navigation</p>
     <div class="qa">
@@ -397,8 +673,8 @@ footer a{display:inline-block;padding:9px 0}
   </article>
 
   <article class="sys">
-    <h3 lang="es"><span class="n">1.3</span>Equipamiento en red</h3>
-    <h3 lang="en"><span class="n">1.3</span>Networked equipping</h3>
+    <h4 lang="es"><span class="n">1.3</span>Equipamiento en red</h4>
+    <h4 lang="en"><span class="n">1.3</span>Networked equipping</h4>
     <p class="tech" lang="es">Replicación de Unreal · RPCs · animation notifies</p>
     <p class="tech" lang="en">Unreal replication · RPCs · animation notifies</p>
     <div class="qa">
@@ -483,10 +759,10 @@ footer a{display:inline-block;padding:9px 0}
 </section>
 
 <!-- ============ HILLCLIMB3D ============ -->
-<section>
+<section class="project" id="hillclimb3d">
   <p class="sec-label" lang="es">Proyecto 02</p>
   <p class="sec-label" lang="en">Project 02</p>
-  <h2>HillClimb3D</h2>
+  <h3 class="ptitle">HillClimb3D</h3>
   <p class="tagline" lang="es">Recreación 3D de Hill Climb Racing.</p>
   <p class="tagline" lang="en">3D recreation of Hill Climb Racing.</p>
   <p class="meta" lang="es">Unreal Engine 5.8 · física arcade sobre Chaos Vehicles</p>
@@ -503,8 +779,8 @@ footer a{display:inline-block;padding:9px 0}
   </div>
 
   <article class="sys">
-    <h3 lang="es"><span class="n">2.1</span>Control aéreo arcade</h3>
-    <h3 lang="en"><span class="n">2.1</span>Arcade air control</h3>
+    <h4 lang="es"><span class="n">2.1</span>Control aéreo arcade</h4>
+    <h4 lang="en"><span class="n">2.1</span>Arcade air control</h4>
     <p class="tech" lang="es">C++ sobre Chaos Vehicles</p>
     <p class="tech" lang="en">C++ on top of Chaos Vehicles</p>
     <div class="qa">
@@ -581,8 +857,8 @@ footer a{display:inline-block;padding:9px 0}
   </article>
 
   <article class="sys">
-    <h3 lang="es"><span class="n">2.2</span>Detección de vueltas</h3>
-    <h3 lang="en"><span class="n">2.2</span>Flip detection</h3>
+    <h4 lang="es"><span class="n">2.2</span>Detección de vueltas</h4>
+    <h4 lang="en"><span class="n">2.2</span>Flip detection</h4>
     <p class="tech" lang="es">C++ · integración de velocidad angular</p>
     <p class="tech" lang="en">C++ · angular velocity integration</p>
     <div class="qa">
@@ -667,16 +943,16 @@ footer a{display:inline-block;padding:9px 0}
   </article>
 </section>
 
-<!-- ============ PUBLICADOS ============ -->
-<section>
-  <p class="sec-label" lang="es">Publicados</p>
-  <p class="sec-label" lang="en">Published</p>
-  <h2 lang="es">Otros proyectos</h2>
-  <h2 lang="en">Other projects</h2>
+<!-- ============ OTROS PROYECTOS ============ -->
+<section class="project" id="otros-proyectos">
+  <p class="sec-label" lang="es">Publicados y prototipos</p>
+  <p class="sec-label" lang="en">Released and prototypes</p>
+  <h3 class="ptitle" lang="es">Otros proyectos</h3>
+  <h3 class="ptitle" lang="en">Other projects</h3>
   <div class="cards">
 
     <div class="card">
-      <h3>Take Care (Of Me)</h3>
+      <h4>Take Care (Of Me)</h4>
       <p class="meta">Unreal Engine · Steam</p>
       <p class="desc" lang="es">Juego de historia de unos 30 minutos, programado íntegramente
       por mí. Sistema de interacción resuelto con interfaz de Blueprint sobre una clase base de
@@ -687,7 +963,7 @@ footer a{display:inline-block;padding:9px 0}
     </div>
 
     <div class="card">
-      <h3>York's Pizza Express</h3>
+      <h4>York's Pizza Express</h4>
       <p class="meta">Unreal Engine · itch.io</p>
       <p class="desc" lang="es">Arcade de reparto contrarreloj. IA simple de perros, destinos de
       entrega aleatorios tomados de un array de puntos del mapa, bonificación por tiempo y
@@ -695,34 +971,184 @@ footer a{display:inline-block;padding:9px 0}
       <p class="desc" lang="en">Time-attack delivery arcade. Simple dog AI, random delivery
       destinations taken from an array of map points, time bonus, and respawn with a particle
       system after being run over.</p>
-      <div class="links"><a href="https://pixellz.itch.io" target="_blank" rel="noopener">itch.io</a></div>
+      <div class="links"><a href="https://pixellz.itch.io" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-itch"/></svg>itch.io</a></div>
     </div>
 
     <div class="card proto">
-      <h3>MultiParty</h3>
-      <p class="meta" lang="es">Prototipo</p>
-      <p class="meta" lang="en">Prototype</p>
+      <h4>MultiParty</h4>
+      <p class="meta" lang="es">Prototipo · Unreal Engine</p>
+      <p class="meta" lang="en">Prototype · Unreal Engine</p>
       <p class="desc" lang="es">Cuatro jugadores en local, cuatro minijuegos. Proyecto temprano.</p>
       <p class="desc" lang="en">Four players local, four minigames. Early project.</p>
     </div>
 
     <div class="card proto">
-      <h3>The Secret of the Village</h3>
-      <p class="meta" lang="es">Prototipo</p>
-      <p class="meta" lang="en">Prototype</p>
+      <h4>The Secret of the Village</h4>
+      <p class="meta" lang="es">Prototipo · Unreal Engine</p>
+      <p class="meta" lang="en">Prototype · Unreal Engine</p>
     </div>
 
   </div>
 </section>
 
+<!-- ============ EXPERIENCIA ============ -->
+<section class="block" id="experiencia">
+  <p class="eyebrow" lang="es">Experiencia</p>
+  <p class="eyebrow" lang="en">Experience</p>
+  <h2 class="sec-title" lang="es">Prácticas en estudio</h2>
+  <h2 class="sec-title" lang="en">Studio internships</h2>
+  <ol class="timeline">
+    <li>
+      <div class="tl-head"><h3>Moonmana</h3><span class="when">2025</span></div>
+      <p class="tl-role" lang="es">Programador y diseñador · Prácticas</p>
+      <p class="tl-role" lang="en">Game Programmer &amp; Designer · Internship</p>
+      <ul class="tight" lang="es">
+        <li><b>Haddie's Pizzeria</b> (programación): refactoricé código existente para hacerlo más
+        claro y fácil de mantener, e implementé nuevas funcionalidades.</li>
+        <li><b>Juego de estilo MOBA sin anunciar</b> (diseño): diseñé nuevos personajes y sus
+        habilidades.</li>
+      </ul>
+      <ul class="tight" lang="en">
+        <li><b>Haddie's Pizzeria</b> (programming): refactored existing code to make it clearer and
+        easier to maintain, and implemented new features.</li>
+        <li><b>Unannounced MOBA-style game</b> (design): designed new characters and their
+        abilities.</li>
+      </ul>
+    </li>
+    <li>
+      <div class="tl-head"><h3>SparklingTech</h3><span class="when">2025</span></div>
+      <p class="tl-role" lang="es">Programador · Prácticas</p>
+      <p class="tl-role" lang="en">Programmer · Internship</p>
+      <p class="tl-desc" lang="es">Prototipo 2D de granja con elementos de acción, en Unreal Engine
+      con Blueprints.</p>
+      <p class="tl-desc" lang="en">A 2D farming prototype with action elements, built in Unreal
+      Engine with Blueprints.</p>
+      <ul class="tight" lang="es">
+        <li>Sistema de inventario y gestión de objetos.</li>
+        <li>Enemigos y su comportamiento.</li>
+        <li>Integración de sprites 2D en Unreal Engine.</li>
+      </ul>
+      <ul class="tight" lang="en">
+        <li>Inventory system and item management.</li>
+        <li>Enemies and their behaviour.</li>
+        <li>2D sprites integrated into Unreal Engine.</li>
+      </ul>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ FORMACION ============ -->
+<section class="block" id="formacion">
+  <p class="eyebrow" lang="es">Formación</p>
+  <p class="eyebrow" lang="en">Education</p>
+  <h2 class="sec-title" lang="es">De dónde vengo</h2>
+  <h2 class="sec-title" lang="en">Where I come from</h2>
+  <ol class="timeline">
+    <li class="now">
+      <div class="tl-head"><h3>Voxel School</h3>
+        <span class="when" lang="es">2026 – actualidad</span><span class="when" lang="en">2026 – present</span></div>
+      <p class="tl-role" lang="es">Máster en desarrollo de videojuegos</p>
+      <p class="tl-role" lang="en">Master's in game development</p>
+      <p class="tl-desc" lang="es">Especializándome en programación de gameplay con Unreal Engine 5,
+      en C++ y Blueprints.</p>
+      <p class="tl-desc" lang="en">Specialising in gameplay programming with Unreal Engine 5, in C++
+      and Blueprints.</p>
+    </li>
+    <li>
+      <div class="tl-head"><h3>CIFP Felo Monzón Grau-Bassas</h3><span class="when">2023 – 2025</span></div>
+      <p class="tl-role" lang="es">Técnico Superior en Animación 3D, Juegos y Entornos Interactivos</p>
+      <p class="tl-role" lang="en">Higher Technician Diploma in 3D Animation, Games and Interactive Environments</p>
+      <p class="tl-desc" lang="es">Programación en Unreal Engine con Blueprints, modelado 3D con Maya y
+      Blender, texturizado con Substance Painter y edición con Adobe y DaVinci Resolve. De aquí salen
+      Take Care (Of Me), York's Pizza Express, MultiParty y The Secret of the Village.</p>
+      <p class="tl-desc" lang="en">Unreal Engine programming with Blueprints, 3D modelling in Maya and
+      Blender, texturing in Substance Painter, and editing with Adobe and DaVinci Resolve. Take Care
+      (Of Me), York's Pizza Express, MultiParty and The Secret of the Village come from here.</p>
+    </li>
+    <li>
+      <div class="tl-head"><h3>Udemy</h3><span class="when">2025</span></div>
+      <p class="tl-role" lang="es">Cursos de Unreal Engine 5: C++ y multijugador con Blueprints</p>
+      <p class="tl-role" lang="en">Unreal Engine 5 courses: C++ and Blueprints multiplayer</p>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ HABILIDADES ============ -->
+<section class="block" id="habilidades">
+  <p class="eyebrow" lang="es">Habilidades</p>
+  <p class="eyebrow" lang="en">Skills</p>
+  <h2 class="sec-title" lang="es">Con qué trabajo</h2>
+  <h2 class="sec-title" lang="en">What I work with</h2>
+  <div class="skills">
+    <div>
+      <h3 lang="es">Programación</h3><h3 lang="en">Programming</h3>
+      <div class="chips">
+        <span>Unreal Engine 5</span><span>C++</span><span>Blueprints</span>
+        <span>AIPerception</span><span>Behavior Trees</span>
+        <span lang="es">Replicación y RPCs</span><span lang="en">Replication &amp; RPCs</span>
+        <span>Chaos Vehicles</span><span>UMG</span>
+      </div>
+    </div>
+    <div>
+      <h3 lang="es">Arte y vídeo</h3><h3 lang="en">Art and video</h3>
+      <div class="chips">
+        <span>Maya</span><span>Blender</span><span>Substance Painter</span>
+        <span>Adobe</span><span>DaVinci Resolve</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACTO ============ -->
+<section class="block" id="contacto">
+  <p class="eyebrow" lang="es">Contacto</p>
+  <p class="eyebrow" lang="en">Contact</p>
+  <div class="cta">
+    <h3 lang="es">¿Hablamos?</h3>
+    <h3 lang="en">Let's talk</h3>
+    <p lang="es">Busco mi primer puesto como programador de gameplay y estoy disponible en remoto.
+    Si tienes una oferta, o simplemente quieres hablar de Unreal, escríbeme.</p>
+    <p lang="en">I'm looking for my first role as a gameplay programmer and I'm open to remote
+    work. If you have an opening, or just want to talk Unreal, get in touch.</p>
+    <div class="actions">
+      <a class="btn primary mail-btn" href="mailto:pixellzdev04@gmail.com" title="pixellzdev04@gmail.com"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg><span class="mail-text">pixellzdev04@gmail.com</span></a>
+      <a class="btn" href="https://www.linkedin.com/in/francisco-javier-le%C3%B3n-p%C3%A9rez-8aa561298/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn</a>
+      <a class="btn cv-link" href="cv-fran-leon-es.pdf" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-doc"/></svg><span lang="es">Descargar CV</span><span lang="en">Download CV</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
 <footer>
-  <p><a href="mailto:pixellzdev04@gmail.com">pixellzdev04@gmail.com</a></p>
-  <p><a href="https://youtu.be/9Jv1va2Jqww" target="_blank" rel="noopener">Reel</a></p>
+  <div class="wide">
+    <div class="foot-brand"><img src="assets/favicon.png" alt="" width="28" height="28">
+      <span>Fran León · PixellzDEV</span></div>
+    <div class="socials">
+      <a href="https://www.linkedin.com/in/francisco-javier-le%C3%B3n-p%C3%A9rez-8aa561298/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+      <a href="https://www.youtube.com/@PixeIlzz" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg class="icon" aria-hidden="true"><use href="#i-youtube"/></svg></a>
+      <a href="https://pixellz.itch.io" target="_blank" rel="noopener" aria-label="itch.io" title="itch.io"><svg class="icon" aria-hidden="true"><use href="#i-itch"/></svg></a>
+      <a href="https://linktr.ee/pixellzdev" target="_blank" rel="noopener" aria-label="Linktree" title="Linktree"><svg class="icon" aria-hidden="true"><use href="#i-linktree"/></svg></a>
+    </div>
+  </div>
 </footer>
 
-</div>
-
 <script>
+/* reel: carga el reproductor de YouTube solo al pulsar */
+(function(){
+  var box = document.getElementById('reel-player');
+  if (!box) return;
+  var btn = box.querySelector('button');
+  btn.addEventListener('click', function(){
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/9Jv1va2Jqww?autoplay=1&rel=0';
+    f.title = 'Reel — Fran León';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.allowFullscreen = true;
+    box.replaceChild(f, btn);
+  });
+})();
+
 /* resaltado del bloque de codigo */
 (function(){
   var KW = /^(if|else|return|for|while|switch|case|break|continue|const|static|void|float|int|bool|auto|true|false|nullptr|new|delete|class|struct|template|typename|this)$/;
@@ -759,14 +1185,14 @@ footer a{display:inline-block;padding:9px 0}
 (function(){
   var META = {
     es: {title:'Fran León — Gameplay Programmer',
-         desc:'Fran León. Gameplay programmer. Unreal Engine 5.8, C++ y Blueprints. IA, replicación y física.',
+         desc:'Fran León. Gameplay programmer en Unreal Engine 5, C++ y Blueprints. IA, multijugador y física.',
          cv:'cv-fran-leon-es.pdf'},
     en: {title:'Fran León — Gameplay Programmer',
-         desc:'Fran León. Gameplay programmer. Unreal Engine 5.8, C++ and Blueprints. AI, replication and physics.',
+         desc:'Fran León. Gameplay programmer in Unreal Engine 5, C++ and Blueprints. AI, multiplayer and physics.',
          cv:'cv-fran-leon-en.pdf'}
   };
   var root = document.documentElement;
-  var link = document.getElementById('cv-link');
+  var cvLinks = document.querySelectorAll('.cv-link');
   var desc = document.querySelector('meta[name="description"]');
   var btns = [document.getElementById('btn-es'), document.getElementById('btn-en')];
 
@@ -776,7 +1202,7 @@ footer a{display:inline-block;padding:9px 0}
     root.lang = lang;
     document.title = m.title;
     if (desc) desc.setAttribute('content', m.desc);
-    if (link) link.setAttribute('href', m.cv);
+    for (var c=0;c<cvLinks.length;c++) cvLinks[c].setAttribute('href', m.cv);
     for (var i=0;i<btns.length;i++){
       if (!btns[i]) continue;
       btns[i].setAttribute('aria-pressed',
@@ -795,29 +1221,12 @@ footer a{display:inline-block;padding:9px 0}
   set(root.getAttribute('data-lang') === 'en' ? 'en' : 'es', false);
 })();
 
-/* el boton de email copia la direccion al portapapeles */
+/* los botones de email copian la direccion al portapapeles */
 (function(){
   var MAIL = 'pixellzdev04@gmail.com';
   var TXT  = { es:{ok:'¡Copiado!', err:'Copia manual'},
                en:{ok:'Copied!',   err:'Copy manually'} };
-  var link = document.getElementById('mail-link');
-  var label = document.getElementById('mail-text');
-  var live = document.getElementById('mail-live');
-  if (!link || !label) return;
-  var timer = null;
-
-  function flash(msg){
-    if (timer) { clearTimeout(timer); }
-    label.textContent = msg;
-    link.classList.add('copied');
-    if (live) live.textContent = msg + ' ' + MAIL;
-    timer = setTimeout(function(){
-      label.textContent = 'Email';
-      link.classList.remove('copied');
-      if (live) live.textContent = '';
-      timer = null;
-    }, 1800);
-  }
+  var live = document.querySelector('.mail-live');
 
   function msg(kind){
     var l = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'es';
@@ -842,25 +1251,46 @@ footer a{display:inline-block;padding:9px 0}
     } catch(e) { return false; }
   }
 
-  link.addEventListener('click', function(ev){
-    /* Con modificador o boton central, respeta lo que pide el usuario. */
-    if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
-    ev.preventDefault();
+  var links = document.querySelectorAll('.mail-btn');
+  for (var n=0;n<links.length;n++) (function(link){
+    var label = link.querySelector('.mail-text');
+    if (!label) return;
+    var original = label.textContent;
+    var timer = null;
 
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(MAIL).then(function(){
-        flash(msg('ok'));
-      })['catch'](function(){
-        if (legacyCopy()) { flash(msg('ok')); }
-        else { flash(msg('err')); window.location.href = link.getAttribute('href'); }
-      });
-    } else if (legacyCopy()) {
-      flash(msg('ok'));
-    } else {
-      /* Sin forma de copiar: comportamiento de siempre, abrir el correo. */
-      window.location.href = link.getAttribute('href');
+    function flash(text){
+      if (timer) { clearTimeout(timer); }
+      label.textContent = text;
+      link.classList.add('copied');
+      if (live) live.textContent = text + ' ' + MAIL;
+      timer = setTimeout(function(){
+        label.textContent = original;
+        link.classList.remove('copied');
+        if (live) live.textContent = '';
+        timer = null;
+      }, 1800);
     }
-  });
+
+    link.addEventListener('click', function(ev){
+      /* Con modificador o boton central, respeta lo que pide el usuario. */
+      if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+      ev.preventDefault();
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(MAIL).then(function(){
+          flash(msg('ok'));
+        })['catch'](function(){
+          if (legacyCopy()) { flash(msg('ok')); }
+          else { flash(msg('err')); window.location.href = link.getAttribute('href'); }
+        });
+      } else if (legacyCopy()) {
+        flash(msg('ok'));
+      } else {
+        /* Sin forma de copiar: comportamiento de siempre, abrir el correo. */
+        window.location.href = link.getAttribute('href');
+      }
+    });
+  })(links[n]);
 })();
 </script>
 </body>
